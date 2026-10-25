@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Results</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 10px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        .results-row {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 200px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .images-pair {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .image-container {
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.05);
+        }
+
+        .images-pair p {
+            margin: 0;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .result-badge {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .normal { background-color: #28a745; }
+        .ulcer { background-color: #dc3545; }
+
+        .advice-container {
+            margin-top: 30px;
+            max-width: 900px;
+            background: white;
+            padding: 20px 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            text-align: left;
+        }
+
+        .advice-container h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .advice-container p {
+            margin: 5px 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        a {
+            margin-top: 25px;
+            padding: 12px 25px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        @media(max-width:600px){
+            .image-container {
+                width: 100px;
+                height: 100px;
+            }
+            .card {
+                min-width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h1>Prediction Results</h1>
+
+<div class="results-row">
+    {% for item in results %}
+    <div class="card">
+        <span class="result-badge {% if 'Normal' in item.result %}normal{% else %}ulcer{% endif %}">
+            {{ item.result }}
+        </span>
+
+        <div class="images-pair">
+            <p>Uploaded</p>
+            <div class="image-container">
+                <img src="{{ url_for('static', filename='uploads/' + item.image) }}" alt="Uploaded">
+            </div>
+
+            {% if item.heatmap %}
+            <p>Heatmap</p>
+            <div class="image-container">
+                <img src="{{ item.heatmap }}" alt="Heatmap">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% set show_advice = results|selectattr("result", "equalto", "Ulcer Detected")|list %}
+{% if show_advice %}
+<div class="advice-container">
+    <h3>Precautions / Care Tips:</h3>
+    {% for line in show_advice[0].advice.split('<br>') %}
+        <p>{{ line|safe }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
+<a href="/">Try Another Upload</a>
+
+</body>
+</html>

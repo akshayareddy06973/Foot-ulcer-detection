@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sample Foot Ulcer Images</title>
+
+<style>
+
+/* BACKGROUND */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(14,165,233,0.08), transparent 40%),
+        radial-gradient(circle at bottom right, rgba(99,102,241,0.08), transparent 40%),
+        linear-gradient(135deg, #f9fbff, #eef2f7);
+    text-align: center;
+    padding: 30px;
+}
+
+/* TITLE */
+h1 {
+    margin-bottom: 40px;
+    color: #1e293b;
+}
+
+/* GALLERY GRID (WIDER) */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* bigger cards */
+    gap: 30px;
+    max-width: 1200px; /* increased width */
+    margin: auto;
+}
+
+/* CARD */
+.gallery a {
+    display: block;
+    width: 100%;
+    height: 260px; /* increased height */
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.12);
+    transition: 0.3s;
+    background: white;
+}
+
+/* IMAGE */
+.gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.3s;
+}
+
+/* HOVER EFFECT */
+.gallery a:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.18);
+}
+
+.gallery a:hover img {
+    transform: scale(1.1);
+}
+
+/* BUTTON */
+.btn {
+    margin-top: 50px;
+    display: inline-block;
+    padding: 14px 28px;
+    background: #0ea5e9;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #0284c7;
+    transform: translateY(-2px);
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Check Early: Foot Ulcer Detection</h1>
+
+<div class="gallery">
+
+    <a href="{{ url_for('static', filename='images/Screenshot 2026-03-29 162759.png') }}">
+        <img src="{{ url_for('static', filename='images/Screenshot 2026-03-29 162759.png') }}">
+    </a>
+
+    <a href="{{ url_for('static', filename='images/Screenshot 2026-03-29 162815.png') }}">
+        <img src="{{ url_for('static', filename='images/Screenshot 2026-03-29 162815.png') }}">
+    </a>
+
+    <a href="{{ url_for('static', filename='images/Screenshot 2026-03-29 162914.png') }}">
+        <img src="{{ url_for('static', filename='images/Screenshot 2026-03-29 162914.png') }}">
+    </a>
+
+    <a href="{{ url_for('static', filename='images/Screenshot 2026-03-29 163657.png') }}">
+        <img src="{{ url_for('static', filename='images/Screenshot 2026-03-29 163657.png') }}">
+    </a>
+
+    <a href="{{ url_for('static', filename='images/Screenshot 2026-03-29 163731.png') }}">
+        <img src="{{ url_for('static', filename='images/Screenshot 2026-03-29 163731.png') }}">
+    </a>
+
+    <a href="{{ url_for('static', filename='images/Screenshot 2026-03-29 164458.png') }}">
+        <img src="{{ url_for('static', filename='images/Screenshot 2026-03-29 164458.png') }}">
+    </a>
+
+    <a href="{{ url_for('static', filename='images/Screenshot 2026-03-29 163942.png') }}">
+        <img src="{{ url_for('static', filename='images/Screenshot 2026-03-29 163942.png') }}">
+    </a>
+
+    <a href="{{ url_for('static', filename='images/Screenshot 2026-03-29 164626.png') }}">
+        <img src="{{ url_for('static', filename='images/Screenshot 2026-03-29 164626.png') }}">
+    </a>
+
+    <a href="{{ url_for('static', filename='images/Screenshot 2026-03-29 164706.png') }}">
+        <img src="{{ url_for('static', filename='images/Screenshot 2026-03-29 164706.png') }}">
+    </a>
+
+    <a href="{{ url_for('static', filename='images/Screenshot 2026-03-29 162903.png') }}">
+        <img src="{{ url_for('static', filename='images/Screenshot 2026-03-29 162903.png') }}">
+    </a>
+
+    <a href="{{ url_for('static', filename='images/Screenshot 2026-03-29 163832.png') }}">
+        <img src="{{ url_for('static', filename='images/Screenshot 2026-03-29 163832.png') }}">
+    </a>
+
+    <a href="{{ url_for('static', filename='images/Screenshot 2026-03-29 163858.png') }}">
+        <img src="{{ url_for('static', filename='images/Screenshot 2026-03-29 163858.png') }}">
+    </a>
+
+</div>
+
+<a href="{{ url_for('home') }}" class="btn">Back to Home</a>
+
+</body>
+</html>

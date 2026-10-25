@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Foot Health Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial; background: #f5f5f5; margin:0; }
+        .header { text-align:center; padding:20px; background:#007bff; color:white; }
+        .header h1 { margin:0; }
+        .container { max-width:1200px; margin:auto; padding:20px; }
+        .cards { display:flex; gap:20px; justify-content:center; margin-bottom:40px; flex-wrap:wrap; }
+        .card { background:white; flex:1; min-width:200px; text-align:center; padding:30px; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+        .card h2 { margin:0; font-size:32px; }
+        .card p { font-size:18px; color:#555; }
+
+        canvas { background:white; padding:20px; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.2); margin-bottom:40px; }
+
+        .recent-scans { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; }
+        .scan-card { background:white; width:200px; padding:15px; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.15); position:relative; }
+        .scan-card img { width:100%; border-radius:10px; }
+        .scan-card .result { font-weight:bold; margin-top:5px; text-align:center; padding:5px; border-radius:10px; color:white; }
+        .ulcer { background:#dc3545; }
+        .normal { background:#28a745; }
+        .timestamp { font-size:12px; text-align:center; margin-top:5px; color:#777; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Foot Health Dashboard</h1>
+        <a href="/" style="color:white; text-decoration:none;">Upload New Scan</a>
+    </div>
+
+    <div class="container">
+        <!-- Summary Cards -->
+        <div class="cards">
+            <div class="card">
+                <h2>{{ total_scans }}</h2>
+                <p>Total Scans</p>
+            </div>
+            <div class="card">
+                <h2>{{ ulcer_count }}</h2>
+                <p>Ulcers Detected</p>
+            </div>
+            <div class="card">
+                <h2>{{ normal_count }}</h2>
+                <p>Normal</p>
+            </div>
+        </div>
+
+        <!-- Doughnut Chart -->
+        <canvas id="severityChart" width="400" height="200"></canvas>
+        <script>
+          const severityData = {{ severity_data|tojson|safe }};
+
+    const ctx = document.getElementById('severityChart').getContext('2d');
+    const severityChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: Object.keys(severityData),
+            datasets: [{
+                data: Object.values(severityData),
+                backgroundColor: ['#dc3545','#28a745']
+            }]
+        },
+        options: { 
+            responsive:true, 
+            plugins: { legend: { position:'bottom' } } 
+        }
+    });
+        </script>
+
+        <!-- Recent Scans -->
+        <h2 style="text-align:center; margin-bottom:20px;">Recent Scans</h2>
+        <div class="recent-scans">
+            {% for scan in history[:6] %}
+            <div class="scan-card">
+                <img src="{{ scan.image }}" alt="Scan Image">
+                <div class="result {% if 'Normal' in scan.result %}normal{% else %}ulcer{% endif %}">
+                    {{ scan.result }}
+                </div>
+                <p class="timestamp">{{ scan.timestamp }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
